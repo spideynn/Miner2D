@@ -47,7 +47,7 @@
     </jar>
   </target>
 
-  <target name="main" depends="compile, jar, docs">
+  <target name="test" depends="compile, jar, docs">
     <description>Main target</description>
   </target>
 
