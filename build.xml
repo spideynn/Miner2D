@@ -1,38 +1,54 @@
-<project name="MyProject" default="dist" basedir=".">
-    <description>
-        simple example build file
-    </description>
-  <!-- set global properties for this build -->
-  <property name="src" location="src"/>
-  <property name="build" location="build"/>
-  <property name="dist"  location="dist"/>
+<?xml version="1.0"?>
+<project name="Ant-Test" default="main" basedir=".">
+  <!-- Sets variables which can later be used. -->
+  <!-- The value of a property is accessed via ${} -->
+  <property name="src.dir" location="src" />
+  <property name="build.dir" location="bin" />
+  <property name="dist.dir" location="dist" />
+  <property name="docs.dir" location="docs" />
 
-  <target name="init">
-    <!-- Create the time stamp -->
-    <tstamp/>
-    <!-- Create the build directory structure used by compile -->
-    <mkdir dir="${build}"/>
+  <!-- Deletes the existing build, docs and dist directory-->
+  <target name="clean">
+    <delete dir="${build.dir}" />
+    <delete dir="${docs.dir}" />
+    <delete dir="${dist.dir}" />
   </target>
 
-  <target name="compile" depends="init"
-        description="compile the source " >
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}"/>
+  <!-- Creates the  build, docs and dist directory-->
+  <target name="makedir">
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${docs.dir}" />
+    <mkdir dir="${dist.dir}" />
   </target>
 
-  <target name="dist" depends="compile"
-        description="generate the distribution" >
-    <!-- Create the distribution directory -->
-    <mkdir dir="${dist}/lib"/>
+  <!-- Compiles the java code (including the usage of library for JUnit -->
+  <target name="compile" depends="clean, makedir">
+    <javac srcdir="${src.dir}" destdir="${build.dir}">
+    </javac>
 
-    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/MyProject-${DSTAMP}.jar" basedir="${build}"/>
   </target>
 
-  <target name="clean"
-        description="clean up" >
-    <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"/>
-    <delete dir="${dist}"/>
+  <!-- Creates Javadoc -->
+  <target name="docs" depends="compile">
+    <javadoc packagenames="src" sourcepath="${src.dir}" destdir="${docs.dir}">
+      <!-- Define which files / directory should get included, we include all -->
+       <fileset dir="${src.dir}">
+                <include name="**" />
+           </fileset>
+    </javadoc>
   </target>
-</project>
+
+  <!--Creates the deployable jar file  -->
+  <target name="jar" depends="compile">
+    <jar destfile="${dist.dir}\de.vogella.build.test.ant.jar" basedir="${build.dir}">
+      <manifest>
+        <attribute name="Main-Class" value="test.Main" />
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="main" depends="compile, jar, docs">
+    <description>Main target</description>
+  </target>
+
+</project> 
