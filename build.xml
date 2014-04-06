@@ -35,19 +35,22 @@
        <fileset dir="${src.dir}">
                 <include name="**" />
            </fileset>
+		<fileset dir="${lib.dir}">
+				<include name="**" />
+			</fileset>
     </javadoc>
   </target>
 
   <!--Creates the deployable jar file  -->
   <target name="jar" depends="compile">
-    <jar destfile="${dist.dir}\de.vogella.build.test.ant.jar" basedir="${build.dir}">
+    <jar destfile="${dist.dir}\Miner2D.jar" basedir="${build.dir}">
       <manifest>
         <attribute name="Main-Class" value="test.Main" />
       </manifest>
     </jar>
   </target>
 
-  <target name="test" depends="compile, jar, docs">
+  <target name="test" depends="compile, jar">
     <description>Main target</description>
   </target>
 
