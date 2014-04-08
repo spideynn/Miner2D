@@ -73,7 +73,7 @@ public class EntityZombie extends LivingEntity implements Serializable {
 					255));
 			g.fillRect(this.x - MD.game.s.camX, this.y - MD.game.s.camY,
 					this.w, this.h);
-			g.setColor(new Color((int) (redness), 0, 0, 192));
+			g.setColor(new Color((int) (redness), 0, 0, 193));
 			g.fillRect(this.x - MD.game.s.camX, this.y - MD.game.s.camY,
 					this.w, this.h);
 		}

@@ -1,7 +1,5 @@
 package net.spideynn.miner2d;
 
-import net.spideynn.miner2d.FurnaceItem;
-
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.imageout.ImageOut;
@@ -9,6 +7,9 @@ import org.newdawn.slick.imageout.ImageOut;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -57,6 +58,7 @@ public class MainGame extends BasicGame {
 	}
 
 	public boolean frozen = false;
+	
 
 	public boolean inCommand;
 	public String currentCommand = "";
@@ -566,7 +568,7 @@ public class MainGame extends BasicGame {
 
 	public void adder(List<MenuButton> me) {
 		me.clear();
-		me.add(new MenuButton("Generate New World!",
+		me.add(new MenuButton("Generate New World",
 				container.getWidth() / 2 - 256 / 2, container.getHeight() / 2
 						- 64 / 2 - 96 + 100, 256, 64, new Runnable() {
 					@Override
@@ -574,44 +576,20 @@ public class MainGame extends BasicGame {
 						/*
 						  if (generateWorld != null) { generateWorld.dispose();
 						  } generateWorld = new GenerateWorldJFrame();
-						  generateWorld.setVisible(true);
-						 */
+						  generateWorld.setVisible(true);*/
+						 
 						try {
 							s.mapWidth = 512;
-							s.mapHeight = 2048;
+							s.mapHeight = 3579;
 							randomGen();
 							initPlayer();
 						} catch (SlickException e) {
 							e.printStackTrace();
 						}
-						
+
 					}
 				}));
-		me.add(new MenuButton("Go Fullscreen (Broken)",
-				container.getWidth() / 2 - 256 / 2, container.getHeight() / 2
-						- 64 / 2 + 100, 256, 64, new Runnable() {
-					@Override
-					public void run() {
-						try {
-							int fullscreen;
-							fullscreen = 0;
-							AppGameContainer appgc = new AppGameContainer(
-									MD.game);
-							if (fullscreen == 0) {
-								appgc.setFullscreen(true);
-								fullscreen = 1;
-							} else {
-								appgc.setFullscreen(false);
-								fullscreen = 0;
-							}
-
-						} catch (SlickException e) {
-
-							e.printStackTrace();
-						}
-					}
-				}));
-		me.add(new MenuButton("Load World!",
+		me.add(new MenuButton("Load World",
 				container.getWidth() / 2 - 256 / 2, container.getHeight() / 2
 						- 64 / 2 + 96 + 100, 256, 64, new Runnable() {
 					@Override
@@ -624,27 +602,27 @@ public class MainGame extends BasicGame {
 	public void windowResize(GameContainer gc) {
 		adder(mb);
 		esm.clear();
-		esm.add(new MenuButton("Generate New World!",
+		esm.add(new MenuButton("Generate New World",
 				container.getWidth() / 2 - 256 / 2, container.getHeight() / 2
 						- 64 / 2 - 192 + 100, 256, 64, new Runnable() {
 					@Override
 					public void run() {
-						/*
-						 * if (generateWorld != null) { generateWorld.dispose();
-						 * } generateWorld = new GenerateWorldJFrame();
-						 * generateWorld.setVisible(true);
-						 */
-						try {
-							s.mapWidth = 512;
-							s.mapHeight = 4096;
-							randomGen();
-							initPlayer();
-						} catch (SlickException e) {
-							e.printStackTrace();
+						
+						 if (generateWorld != null) { generateWorld.dispose();
+						 } generateWorld = new GenerateWorldJFrame();
+						 generateWorld.setVisible(true);
+						 
+						//try {
+							//s.mapWidth = 512;
+							//s.mapHeight = 4096;
+							//randomGen();
+							//initPlayer();
+						//} catch (SlickException e) {
+						//	e.printStackTrace();
 						}
 					}
-				}));
-		esm.add(new MenuButton("Save World!",
+				));
+		esm.add(new MenuButton("Save World",
 				container.getWidth() / 2 - 256 / 2, container.getHeight() / 2
 						- 64 / 2 - 96 + 100, 256, 64, new Runnable() {
 					@Override
@@ -1201,8 +1179,8 @@ public class MainGame extends BasicGame {
 								* 8.0f - 4.0f, s.mp.y - 100f, 25));
 					break;
 				case "furnace":
-					// s.items.add(new PickableItem(new FurnaceItem(64), s.mp.x,
-					// s.mp.y - 128f, 0f, -2f, 16f, 16f));
+					 s.items.add(new PickableItem(new FurnaceItem(64), s.mp.x,
+					 s.mp.y - 128f, 0f, -2f, 16f, 16f));
 					s.items.add(new PickableItem(new CoalItem(64), s.mp.x,
 							s.mp.y - 128f, 0f, -2f, 16f, 16f));
 					break;
@@ -1216,8 +1194,8 @@ public class MainGame extends BasicGame {
 					}
 					break;
 				case "heal":
-					int j = 100 - s.mp.health;
-					s.mp.takeHealth(j * -1);
+					int resetj = 100 - s.mp.health;
+					s.mp.takeHealth(resetj * -1);
 					playSound = false;
 					break;
 				case "walled":
@@ -1262,15 +1240,14 @@ public class MainGame extends BasicGame {
 						s.map[mx + 4][my + iy] = new NormalTile(11, true,
 								"Wooden Planks");
 					}
-
-					// s.map[mx + 3][my + 3] = new FurnaceTile();
+					 s.map[mx + 3][my + 3] = new FurnaceTile();
 					s.map[mx + 3][my + 3].placeTile();
 					s.map[mx + 2][my + 3] = new ChestTile();
 					s.map[mx + 2][my + 3].placeTile();
 					s.map[mx + 1][my + 3] = new ChestTile();
 					s.map[mx + 1][my + 3].placeTile();
 					s.map[mx - 3][my + 3] = new CraftingTableTile(mx - 3,
-							my + 3);
+							my + 3, my - 3 + 3);
 					s.map[mx - 3][my + 3].placeTile();
 					s.map[mx - 3][my] = new TorchTile(mx - 3, my);
 					s.map[mx - 3][my].placeTile();
@@ -1827,7 +1804,7 @@ public class MainGame extends BasicGame {
 		breakingBin.add(new Image("res/breaking/breaking6.png"));
 		breakingBin.add(new Image("res/breaking/breaking7.png"));
 		breakingBin.add(new Image("res/breaking/breaking8.png"));
-		s.entities.add(new EntityPig(192f, 15000f, 26));
+		s.entities.add(new EntityPig(192f, 15000f, 10));
 		CraftingRecipes.addCrafts();
 	}
 
@@ -1889,7 +1866,7 @@ public class MainGame extends BasicGame {
 						if (spawnation
 								&& light[(int) (ez.x / tileWidth)][(int) (ez.y / tileHeight)] < 200
 								&& !ez.isColliding()) {
-							System.out.println("zombie spawned at " + sx
+							System.out.println("[DEBUG] zombie spawned at " + sx
 									/ tileWidth + " " + sy / tileHeight);
 							s.entities.add(ez);
 						}
@@ -2039,29 +2016,30 @@ public class MainGame extends BasicGame {
 			}
 		}
 	}
-	
+
 	public static void mineloaderInit() {
 		System.out.println("Initiating MineLoader2D...");
 		System.out.println("Loading testing mod testMod.class");
 		try {
-		MineLoader2D.class.getClassLoader().loadClass("testMod.class");
-		Method m = MineLoader2D.getMethod("main", String[].class);
-		String[] args = new String[0];
-		try {
-			m.invoke(null, args);
-		} catch (IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException e) {
-			e.printStackTrace();
-		}
+			MineLoader2D.class.getClassLoader().loadClass("testMod.class");
+			Method m = MineLoader2D.getMethod("main", String[].class);
+			String[] args = new String[0];
+			try {
+				m.invoke(null, args);
+			} catch (IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException e) {
+				e.printStackTrace();
+			}
 		} catch (ClassNotFoundException e) {
-			System.out.println("[DEBUG] ModClass not found: testMod.class");
+			System.out.println("[DEBUG] ModClass not found/NYI: testMod.class");
 			System.out.println(e);
 		}
 	}
 
 	public static void main(String[] args) throws SlickException {
-		System.setProperty("org.lwjgl.librarypath", new File("lib/natives/windows").getAbsolutePath());
-		System.out.println("{}- This game is made by Spideynn. 8-10 months of coding!");
+		//System.setProperty("org.lwjgl.librarypath", new File("lib/native/windows").getAbsolutePath());
+		//System.setProperty("java.library.path", new File("lib/native/windows").getAbsolutePath());
+		System.out.println("{}- This game is made by Spideynn. 1 year of coding!");
 		mineloaderInit();
 		if (args.length > 0)
 			MD.vsync = Integer.valueOf(args[0]);

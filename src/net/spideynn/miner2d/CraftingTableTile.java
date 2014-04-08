@@ -14,7 +14,7 @@ public class CraftingTableTile extends Tile {
 	public int x;
 	public int y;
 
-	public CraftingTableTile(int x, int y) {
+	public CraftingTableTile(int x, int y, int healthrep) {
 		super(17, true, false, true, true);
 		this.x = x;
 		this.y = y;

@@ -14,10 +14,13 @@ public class CraftingTableItem extends Item {
 		super(stack, 64, 17, true, "Crafting Table", false, 0);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public Tile getPlace(List args) {
-		return new CraftingTableTile(Integer.valueOf((String) (args.get(0)), healthrep));
-	}
+	  public Tile getPlace(List args)
+	  {
+	    return new CraftingTableTile(Integer.valueOf((String)args.get(0)), Integer.valueOf((String)args.get(1)).intValue(), this.healthrep);
+	  }
+	  
 
 	@Override
 	public boolean use() {

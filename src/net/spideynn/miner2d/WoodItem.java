@@ -59,7 +59,7 @@ public class WoodItem extends Item implements Serializable {
 
 	@Override
 	public boolean getIsSmeltable() {
-		return false;
+		return true;
 	}
 
 	@Override

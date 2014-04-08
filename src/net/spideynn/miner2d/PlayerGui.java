@@ -2,8 +2,8 @@ package net.spideynn.miner2d;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 
 import java.io.Serializable;
 

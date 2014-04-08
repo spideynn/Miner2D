@@ -7,6 +7,7 @@ public class DiamondItem extends Item implements Serializable {
 
 	private static final long serialVersionUID = 8678190831630588395L;
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Tile getPlace(List args) {
 		return null;

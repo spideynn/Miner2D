@@ -1,7 +1,5 @@
 package net.spideynn.miner2d;
 
-import net.spideynn.miner2d.*;
-
 public class CraftingRecipes {
 
 	public static void addCrafts() {
@@ -30,12 +28,13 @@ public class CraftingRecipes {
 				{ "Wooden Planks", "", "Wooden Planks" },
 				{ "Wooden Planks", "Wooden Planks", "Wooden Planks" } },
 				new ChestItem(1), new int[] { 0 }, new int[] { 0 }));
-		/*
-		 * MD.game.crafts.add(new CraftingRecipe(new String[][] {
-		 * {"Cobblestone", "Cobblestone", "Cobblestone"}, {"Cobblestone", "",
-		 * "Cobblestone"}, {"Cobblestone", "Cobblestone", "Cobblestone"}}, new
-		 * FurnaceItem(1), new int[] {0}, new int[] {0}));
-		 */
+
+		MD.game.crafts.add(new CraftingRecipe(new String[][] {
+				{ "Cobblestone", "Cobblestone", "Cobblestone" },
+				{ "Cobblestone", "", "Cobblestone" },
+				{ "Cobblestone", "Cobblestone", "Cobblestone" } },
+				new FurnaceItem(1), new int[] { 0 }, new int[] { 0 })); //Cannot instantiate the type FurnaceItem
+
 		MD.game.crafts.add(new CraftingRecipe(new String[][] {
 				{ "Wooden Planks", "", "" },
 				{ "Wooden Planks", "Stick", "Stick" },

@@ -15,6 +15,7 @@ public class CobbleStoneItem extends Item implements Serializable {
 		super(stack, 64, 20, true, "Cobblestone", false, 0);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Tile getPlace(List args) {
 		return new CobbleStoneTile();

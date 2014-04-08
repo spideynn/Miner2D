@@ -18,7 +18,7 @@ public class MineLoader2D extends ClassLoader {
 
   @Override
   public Class<?> loadClass(String name) throws ClassNotFoundException {
-    System.out.println("MineLoader2D is loading mod " + name);
+    System.out.println("MineLoader2D is loading modClass " + name);
     return super.loadClass(name);
   }//loadClass
 
@@ -54,7 +54,7 @@ public class MineLoader2D extends ClassLoader {
 
   @Override
   public URL getResource(String name) {
-    System.out.println("MineLoader2DgetResource " + name);
+    System.out.println("MineLoader2D getResource " + name);
     return super.getResource(name);
   }
 
@@ -71,7 +71,6 @@ public class MineLoader2D extends ClassLoader {
   }
 
 public static Method getMethod(String string, Class<String[]> class1) {
-	// TODO Auto-generated method stub
 	return null;
 }
 }
