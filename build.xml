@@ -45,7 +45,7 @@
   <target name="jar" depends="compile">
     <jar destfile="${dist.dir}\Miner2D.jar" basedir="${build.dir}">
       <manifest>
-        <attribute name="Main-Class" value="test.Main" />
+        <attribute name="Main-Class" value="net.spideynn.miner2d.main.MainGame" />
       </manifest>
     </jar>
   </target>
