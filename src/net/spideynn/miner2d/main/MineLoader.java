@@ -6,13 +6,23 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Enumeration;
 
-public class MineLoader2D extends ClassLoader {
+/**
+ * Marked as deprecated because of new rewritten modloader - see @MineLoader2D.java
+ * Will be removed in next release
+ */
 
-  public MineLoader2D() {
-    super(MineLoader2D.class.getClassLoader());
+@Deprecated
+public abstract class MineLoader extends ClassLoader {
+	
+	public abstract void onEnable();
+	public abstract void onInit();
+	public abstract void onDisable();
+
+  public MineLoader() {
+    super(MineLoader.class.getClassLoader());
   }
 
-  public MineLoader2D(ClassLoader parent) {
+  public MineLoader(ClassLoader parent) {
     super(parent);
   }
 

@@ -1,81 +1,33 @@
 package net.spideynn.miner2d.main;
 
-import net.spideynn.miner2d.blocks.ChestTile;
-import net.spideynn.miner2d.blocks.CoalOre;
-import net.spideynn.miner2d.blocks.DiamondOre;
-import net.spideynn.miner2d.blocks.EmeraldOre;
-import net.spideynn.miner2d.blocks.FurnaceItem;
-import net.spideynn.miner2d.blocks.FurnaceTile;
-import net.spideynn.miner2d.blocks.IronOre;
-import net.spideynn.miner2d.blocks.LeafTile;
-import net.spideynn.miner2d.blocks.NormalTile;
-import net.spideynn.miner2d.blocks.RubyOre;
-import net.spideynn.miner2d.blocks.SaplingItem;
-import net.spideynn.miner2d.blocks.StoneItem;
-import net.spideynn.miner2d.blocks.Tile;
-import net.spideynn.miner2d.blocks.TntItem;
-import net.spideynn.miner2d.blocks.TntTile;
-import net.spideynn.miner2d.blocks.TorchItem;
-import net.spideynn.miner2d.blocks.TorchTile;
-import net.spideynn.miner2d.blocks.WoodTile;
-import net.spideynn.miner2d.entities.EntityPig;
-import net.spideynn.miner2d.entities.EntityZombie;
-import net.spideynn.miner2d.entities.LivingEntity;
-import net.spideynn.miner2d.gui.GenerateWorldJFrame;
-import net.spideynn.miner2d.gui.Gui;
-import net.spideynn.miner2d.gui.PlayerGui;
-import net.spideynn.miner2d.items.BoneMealItem;
-import net.spideynn.miner2d.items.CoalItem;
-import net.spideynn.miner2d.items.DiamondAxeItem;
-import net.spideynn.miner2d.items.DiamondPickaxeItem;
-import net.spideynn.miner2d.items.DiamondShovelItem;
-import net.spideynn.miner2d.items.DiamondSwordItem;
-import net.spideynn.miner2d.items.EmeraldItem;
-import net.spideynn.miner2d.items.IronAxeItem;
-import net.spideynn.miner2d.items.IronPickaxeItem;
-import net.spideynn.miner2d.items.IronShovelItem;
-import net.spideynn.miner2d.items.IronSwordItem;
-import net.spideynn.miner2d.items.Item;
-import net.spideynn.miner2d.items.LadderItem;
-import net.spideynn.miner2d.items.PickableItem;
-import net.spideynn.miner2d.items.RubyItem;
-import net.spideynn.miner2d.items.StoneAxeItem;
-import net.spideynn.miner2d.items.StonePickaxeItem;
-import net.spideynn.miner2d.items.StoneShovelItem;
-import net.spideynn.miner2d.items.StoneSwordItem;
-import net.spideynn.miner2d.items.WoodenAxeItem;
-import net.spideynn.miner2d.items.WoodenPickaxeItem;
-import net.spideynn.miner2d.items.WoodenShovelItem;
-import net.spideynn.miner2d.items.WoodenSwordItem;
-import net.spideynn.miner2d.other.CraftingRecipe;
-import net.spideynn.miner2d.other.CraftingRecipes;
-import net.spideynn.miner2d.other.CraftingTableTile;
-import net.spideynn.miner2d.other.GameSave;
-import net.spideynn.miner2d.other.GameTools;
-import net.spideynn.miner2d.other.InvenSlot;
-import net.spideynn.miner2d.other.Light;
-import net.spideynn.miner2d.other.Player;
+import net.spideynn.miner2d.blocks.*;
+import net.spideynn.miner2d.items.*;
+import net.spideynn.miner2d.gui.*;
+import net.spideynn.miner2d.entities.*;
+import net.spideynn.miner2d.mineloader2d.MineLoader2DManagerFactory;
+import net.spideynn.miner2d.mineloader2d.ModManager;
+import net.spideynn.miner2d.other.*;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.imageout.ImageOut;
 
+import com.sun.istack.internal.logging.Logger;
+
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import java.util.*;
+import java.util.logging.Level;
 
 public class MainGame extends BasicGame {
 
 	public AppGameContainer container;
-
+	
+	static Logger log = Logger.getLogger("Miner2D", MainGame.class);
+	
 	public boolean physics = true;
 	public boolean instantmine = false;
 	public boolean mobspawn = true;
@@ -1887,6 +1839,10 @@ public class MainGame extends BasicGame {
 
 	public boolean reactz = true;
 
+	/**
+	 * Update thread.
+	 */
+	
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 
@@ -2089,32 +2045,33 @@ public class MainGame extends BasicGame {
 			}
 		}
 	}
-
-	public static void mineloaderInit() {
-		System.out.println("Initiating MineLoader2D...");
-		System.out.println("Loading testing mod Mod.class");
+	
+	/**
+	 * MineLoader2D is a beta modloader for Miner2D.
+	 * See @MineLoader.java for old implementation. @Mineloader2D is the newer implementation.
+	 */
+	
+	public static void mineloader2dInit() {
+		System.out.println("[DEBUG] Initiating MineLoader2D...");
+		System.out.println("[DEBUG] Searching for classes...");
+		ModManager pm = MineLoader2DManagerFactory.createPluginManager("mods");
 		try {
-			MineLoader2D.class.getClassLoader().loadClass("Mod");
-			Method m = MineLoader2D.getMethod("main", String[].class);
-			String[] args = new String[0];
-			try {
-				m.invoke(null, args);
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				e.printStackTrace();
-			}
-		} catch (ClassNotFoundException e) {
-			System.out.println("[DEBUG] ModClass not found/NYI: testMod.class");
-			System.out.println(e);
+			pm.init();
+		} catch (FileNotFoundException e) {
+			System.out.println("ERROR: Mods folder not found, no mods loading.");
+			e.printStackTrace();
 		}
 	}
 
 	public static void main(String[] args) throws SlickException {
+		//LibraryExtractor.getOSLibs();
 		System.setProperty("org.lwjgl.librarypath", new File("lib/native/windows").getAbsolutePath());
 		System.setProperty("java.library.path", new File("lib/native/windows").getAbsolutePath());
 		System.out.println("{}- This game is made by Spideynn. 1 year of coding!");
-		mineloaderInit();
-		if (args.length > 0)
-			MD.vsync = Integer.valueOf(args[0]);
+		mineloader2dInit();
+		if (args.length > 0 && args[0].equals("debug")) {
+			log.setLevel(Level.FINEST);
+		}
 		AppGameContainer appgc = new AppGameContainer(MD.game);
 		appgc.setAlwaysRender(true);
 		appgc.setDisplayMode(800, 600, false);
