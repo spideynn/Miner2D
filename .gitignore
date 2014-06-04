@@ -1,7 +1,7 @@
 *.class
 
 # Package Files #
-*.jar
+# *.jar # Needs to be allowed so that the libraries can be uploaded.
 *.war
 *.ear
 *.project
