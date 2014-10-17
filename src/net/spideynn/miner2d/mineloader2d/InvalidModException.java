@@ -2,7 +2,6 @@ package net.spideynn.miner2d.mineloader2d;
 
 /**
  * Thrown when a mod is not loaded correctly,
- * ex. the @Mod annotation is not above the class name.
  */
 
 public class InvalidModException extends Exception {

@@ -18,6 +18,8 @@ public class MineLoader2D extends URLClassLoader {
 	private void addFile(File file) throws MalformedURLException {
 		addURL(file.toURI().toURL());
 	}
+	
+	public static File[] modsLoaded;
 
 	public void loadPlugin(File pluginDir) {
 		try {
@@ -29,6 +31,8 @@ public class MineLoader2D extends URLClassLoader {
 			if (jars != null)
 				for (File jar : jars)
 					addFile(jar);
+					System.out.println("Loaded mods:" + jars);
+					modsLoaded = jars;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

@@ -4,15 +4,12 @@ import net.spideynn.miner2d.blocks.*;
 import net.spideynn.miner2d.items.*;
 import net.spideynn.miner2d.gui.*;
 import net.spideynn.miner2d.entities.*;
-import net.spideynn.miner2d.mineloader2d.MineLoader2DManagerFactory;
-import net.spideynn.miner2d.mineloader2d.ModManager;
+import net.spideynn.miner2d.network.NetworkListener;
 import net.spideynn.miner2d.other.*;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.imageout.ImageOut;
-
-import com.sun.istack.internal.logging.Logger;
 
 import java.io.*;
 
@@ -21,12 +18,15 @@ import javax.swing.JFrame;
 
 import java.util.*;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import jexxus.server.Server;
 
 public class MainGame extends BasicGame {
 
 	public AppGameContainer container;
 	
-	static Logger log = Logger.getLogger("Miner2D", MainGame.class);
+	static Logger log = Logger.getLogger("Miner2D");
 	
 	public boolean physics = true;
 	public boolean instantmine = false;
@@ -2054,23 +2054,19 @@ public class MainGame extends BasicGame {
 	public static void mineloader2dInit() {
 		System.out.println("[DEBUG] Initiating MineLoader2D...");
 		System.out.println("[DEBUG] Searching for classes...");
-		ModManager pm = MineLoader2DManagerFactory.createPluginManager("mods");
-		try {
-			pm.init();
-		} catch (FileNotFoundException e) {
-			System.out.println("ERROR: Mods folder not found, no mods loading.");
-			e.printStackTrace();
-		}
 	}
 
 	public static void main(String[] args) throws SlickException {
-		//LibraryExtractor.getOSLibs();
+		LibraryExtractor.getOSLibs();
 		System.setProperty("org.lwjgl.librarypath", new File("lib/native/windows").getAbsolutePath());
 		System.setProperty("java.library.path", new File("lib/native/windows").getAbsolutePath());
 		System.out.println("{}- This game is made by Spideynn. 1 year of coding!");
-		mineloader2dInit();
+		//mineloader2dInit();
 		if (args.length > 0 && args[0].equals("debug")) {
 			log.setLevel(Level.FINEST);
+		} else if (args[0].equals("server")) {
+			//Server server = new Server(new net.spideynn.miner2d.network.NetworkListener(), 15652, null);
+			//server.startServer();
 		}
 		AppGameContainer appgc = new AppGameContainer(MD.game);
 		appgc.setAlwaysRender(true);

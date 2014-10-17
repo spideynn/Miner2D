@@ -1,16 +1,15 @@
 package net.spideynn.miner2d.mineloader2d;
 
-import java.io.FileNotFoundException;
+import java.io.File;
 
-/**
- * Service Management
- */
+public class ModManager {
 
-public interface ModManager {
-
-	public void init() throws FileNotFoundException;
-
-	public void registerService(String name, ModService service);
-	public ModService getService(String string);
+	public void init() {
+		
+	}
 	
+	public void getMods(File[] mods) {
+		mods = MineLoader2D.modsLoaded;
+	}
+
 }
